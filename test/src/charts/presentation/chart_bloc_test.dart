@@ -18,13 +18,19 @@ class MockHttpClient extends Mock implements http.Client {
   }
 }
 
+class FakeUri extends Fake implements Uri {}
+
 void main() {
   late ChartBloc chartBloc;
   late MockHttpClient mockHttpClient;
 
+  setUpAll(() {
+    registerFallbackValue(FakeUri());
+  });
+
   setUp(() {
     mockHttpClient = MockHttpClient();
-    chartBloc = ChartBloc(); // Adjust constructor if necessary
+    chartBloc = ChartBloc(httpClient: mockHttpClient);
   });
 
   tearDown(() {
@@ -51,8 +57,11 @@ void main() {
     },
     act: (bloc) => bloc.add(LoadChartData()),
     expect: () => [
-      isA<ChartLoaded>()
-          .having((state) => state.series, 'series', isA<List<CartesianSeries<CandleData, DateTime>>>())
+      isA<ChartLoaded>().having(
+            (state) => state.series,
+        'series',
+        isA<List<CartesianSeries<CandleData, DateTime>>>(),
+      ),
     ],
   );
 
@@ -64,8 +73,11 @@ void main() {
     },
     act: (bloc) => bloc.add(LoadChartData()),
     expect: () => [
-      isA<ChartError>()
-          .having((state) => state.message, 'message', contains('Failed to load chart data')),
+      isA<ChartError>().having(
+            (state) => state.message,
+        'message',
+        contains('Failed to load chart data'),
+      ),
     ],
   );
 }

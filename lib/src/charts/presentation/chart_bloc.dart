@@ -9,14 +9,16 @@ import 'package:ravenpay_assessment/src/charts/presentation/chart_state.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ChartBloc extends Bloc<ChartEvent, ChartState> {
-  ChartBloc() : super(ChartInitial()) {
+  final http.Client httpClient;
+
+  ChartBloc({required this.httpClient}) : super(ChartInitial()) {
     on<LoadChartData>(_onLoadChartData);
   }
 
   void _onLoadChartData(LoadChartData event, Emitter<ChartState> emit) async {
     try {
       // Simulate data fetching
-      final response = await http.get(Uri.parse(
+      final response = await httpClient.get(Uri.parse(
           'https://api.coingecko.com/api/v3/coins/bitcoin/ohlc?vs_currency=usd&days=7'));
 
       if (response.statusCode == 200) {
@@ -48,6 +50,8 @@ class ChartBloc extends Bloc<ChartEvent, ChartState> {
           ),
         ];
         emit(ChartLoaded(series: series));
+      } else {
+        emit(ChartError(message: 'Failed to load chart data'));
       }
     } catch (e) {
       emit(ChartError(message: 'Failed to load chart data: $e'));
