@@ -130,7 +130,7 @@ class _BottomModalContentState extends State<BottomModalContent>
                     ),
                     GestureDetector(
                       onTap: () {
-                        _tabController.animateTo(1);
+                        // _tabController.animateTo(1);
                       },
                       child: Container(
                         width: 161.w,
