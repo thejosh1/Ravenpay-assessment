@@ -9,6 +9,7 @@ class AppColors {
   static const greyText = Color(0xFFA7B1BC);
   static const lightGrey = Color(0xFF1C2127);
   static const grey400 = Color(0xFFE9F0FF);
+  static Color grey400withOpacity = const Color(0xFFE9F0FF).withOpacity(0.05);
   static const black200 = Color(0xFF17181B);
   static const darkGrey2 = Color(0xFF21262C);
   static const smallGrey = Color(0xFF353945);
@@ -19,4 +20,7 @@ class AppColors {
   static const lightBackground = Color(0xFFF1F1F1);
   static const deepText = Color(0xFF737A91);
   static const lightSmallGrey = Color(0xFFCFD3D8);
+  static const deepGrey = Color(0xFF262932);
+  static const orderText = Color(0xFFF4F5F6);
+  static const timeColor = Color(0xFF555C63);
 }

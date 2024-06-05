@@ -6,7 +6,7 @@ import 'package:ravenpay_assessment/core/res/media_res.dart';
 import 'package:ravenpay_assessment/core/theme/app_themes.dart';
 import 'package:ravenpay_assessment/core/theme/bloc/theme/theme_bloc.dart';
 import 'package:ravenpay_assessment/src/charts/domain/candle_stick_model.dart';
-import 'package:ravenpay_assessment/src/main_page/presentation/views/components/candle_stick.dart';
+import 'package:ravenpay_assessment/src/main_page/presentation/views/components/chat_view.dart';
 
 import 'package:ravenpay_assessment/src/main_page/presentation/views/components/enums.dart';
 import 'package:ravenpay_assessment/src/main_page/presentation/views/components/kBottomModal.dart';
@@ -34,60 +34,68 @@ class _MainPageState extends State<MainPage> {
   TabSelection2 selectedTab2 = TabSelection2.openOrders;
   final PageController _pageController = PageController();
   final PageController _pageController1 = PageController();
+  bool toogleTheme = false;
 
   final List<Map<String, String>> _items = [
     {'text': 'BTC/USDT', 'image': MediaRes.btcUsdt},
   ];
+
+  late Future<List<dynamic>> _candlestickData;
 
   @override
   void initState() {
     super.initState();
     // Initialize _selectedItem with the first item's text
     _selectedItem = _items[0];
-
   }
 
   Widget buildTabWidget(TabSelection tab, String title) {
     final isSelected = selectedTab == tab;
 
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedTab = tab;
-          _pageController1.jumpToPage(TabSelection.values.indexOf(tab));
-        });
-      },
-      child: Container(
-        width: 102.w,
-        height: 34.h,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.r),
-          color: AppTheme == AppTheme.lightTheme
-              ? isSelected
-                  ? Colors.white
-                  : AppColors.lightBackground
-              : isSelected
-                  ? AppColors.grey400.withOpacity(0.05)
-                  : AppColors.lightGrey,
-        ),
-        child: Center(
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w700,
-              color: AppTheme == AppTheme.lightTheme
-                  ? isSelected
-                  ? Colors.white
-                  : AppColors.lightBackground
-                  : isSelected
-                  ? Colors.white
-                  : AppColors.greyText,
+    return GestureDetector(onTap: () {
+      setState(() {
+        selectedTab = tab;
+        _pageController1.jumpToPage(TabSelection.values.indexOf(tab));
+      });
+    }, child: BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return Container(
+          height: 40.h,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.r),
+            color: state.themeData.brightness == Brightness.light
+                ? Colors.transparent
+                : AppColors.lightBackground,
+          ),
+          child: Container(
+            width: 109.w,
+            height: 34.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.r),
+              border: Border.all(color: toogleTheme
+                  ? isSelected ? Colors.white : AppColors.lightBackground
+                  : isSelected ? AppColors.lightGrey : AppColors.black200),
+              color: toogleTheme
+                  ? isSelected ? Colors.white : AppColors.lightBackground
+                  : isSelected ? AppColors.lightGrey : AppColors.black200,
+            ),
+            child: Center(
+              child: Text(title,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w700,
+                  color: state.themeData.brightness == Brightness.light
+                      ? isSelected
+                      ? Colors.black
+                      : AppColors.deepText
+                      : Colors.white,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        );
+      },
+    ),);
   }
 
   Widget buildTabWidget2(TabSelection2 tab2, String title) {
@@ -100,47 +108,47 @@ class _MainPageState extends State<MainPage> {
           _pageController.jumpToPage(TabSelection2.values.indexOf(tab2));
         });
       },
-      child: Container(
-        width: 159.w,
-        height: 36.h,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.r),
-          color: AppTheme == AppTheme.lightTheme
-              ? isTapped
-                  ? Colors.white
-                  : AppColors.lightBackground
-              : isTapped
-                  ? AppColors.darkGrey2
-                  : Colors.black.withOpacity(0.16),
-        ),
-        child: Center(
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500,
-              color: AppTheme == AppTheme.lightTheme
-                  ? isTapped
-                  ? Colors.white
-                  : AppColors.lightBackground
-                  : isTapped
-                  ? Colors.white
-                  : AppColors.greyText,
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, state) {
+          return Container(
+            width: 159.w,
+            height: 36.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.r),
+              border: Border.all(color: toogleTheme
+                  ? isTapped ? Colors.white : AppColors.lightBackground
+                  : isTapped ? AppColors.lightGrey : AppColors.black200),
+              color: toogleTheme
+                  ? isTapped ? Colors.white : AppColors.lightBackground
+                  : isTapped ? AppColors.lightGrey : AppColors.black200,
             ),
-          ),
-        ),
+            child: Center(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
+                  color: state.themeData.brightness == Brightness.light
+                      ? isTapped
+                      ? Colors.black
+                      : AppColors.deepText
+                      : Colors.white,
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  bool toogleTheme = false;
-
   final crypto = Crypto();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:
-          toogleTheme ? AppColors.lightBackground : AppColors.darkGrey,
+      toogleTheme ? AppColors.lightBackground : AppColors.darkGrey,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -258,9 +266,9 @@ class _MainPageState extends State<MainPage> {
                               child: ColoredBox(
                                 color: toogleTheme
                                     ? appThemeData[AppTheme.lightTheme]!
-                                        .primaryColor
+                                    .primaryColor
                                     : appThemeData[AppTheme.darkTheme]!
-                                        .primaryColor,
+                                    .primaryColor,
                                 child: Row(
                                   children: [
                                     Image.asset(
@@ -278,9 +286,9 @@ class _MainPageState extends State<MainPage> {
                                         fontSize: 18.sp,
                                         color: toogleTheme
                                             ? appThemeData[AppTheme.darkTheme]
-                                                ?.primaryColor
+                                            ?.primaryColor
                                             : appThemeData[AppTheme.lightTheme]
-                                                ?.primaryColor,
+                                            ?.primaryColor,
                                       ),
                                     ),
                                     SizedBox(
@@ -390,9 +398,9 @@ class _MainPageState extends State<MainPage> {
                               fontSize: 14.sp,
                               color: toogleTheme
                                   ? appThemeData[AppTheme.darkTheme]
-                                      ?.primaryColor
+                                  ?.primaryColor
                                   : appThemeData[AppTheme.lightTheme]
-                                      ?.primaryColor,
+                                  ?.primaryColor,
                             ),
                           ),
                         ],
@@ -430,9 +438,9 @@ class _MainPageState extends State<MainPage> {
                               fontSize: 14.sp,
                               color: toogleTheme
                                   ? appThemeData[AppTheme.darkTheme]
-                                      ?.primaryColor
+                                  ?.primaryColor
                                   : appThemeData[AppTheme.lightTheme]
-                                      ?.primaryColor,
+                                  ?.primaryColor,
                             ),
                           ),
                         ],
@@ -483,8 +491,17 @@ class _MainPageState extends State<MainPage> {
                         });
                       },
                       children: [
-                        TradingViewWidgetHtml(cryptoName: 'BTC/USDT',),
-                        OrderBook(),
+                        SizedBox(
+                          height: 409.h,
+                          width: double.maxFinite,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: const [
+                              ChartView(),
+                            ],
+                          ),
+                        ),
+                        OrderBookWidget(),
                       ],
                     ),
                   ),
@@ -567,17 +584,17 @@ class _MainPageState extends State<MainPage> {
                               padding: EdgeInsets.only(left: 48.w, right: 48.w),
                               child: Text(
                                 'Lorem ipsum dolor sit amet, '
-                                'consectetur adipiscing elit. '
-                                'Id pulvinar nullam sit imperdiet pulvinar.',
+                                    'consectetur adipiscing elit. '
+                                    'Id pulvinar nullam sit imperdiet pulvinar.',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 14.sp,
                                   color: toogleTheme
                                       ? appThemeData[AppTheme.darkTheme]
-                                          ?.primaryColor
+                                      ?.primaryColor
                                       : appThemeData[AppTheme.lightTheme]
-                                          ?.primaryColor,
+                                      ?.primaryColor,
                                 ),
                               ),
                             ),
@@ -593,9 +610,9 @@ class _MainPageState extends State<MainPage> {
                                 fontWeight: FontWeight.w700,
                                 color: toogleTheme
                                     ? appThemeData[AppTheme.darkTheme]
-                                        ?.primaryColor
+                                    ?.primaryColor
                                     : appThemeData[AppTheme.lightTheme]
-                                        ?.primaryColor,
+                                    ?.primaryColor,
                               ),
                             ),
                             SizedBox(
@@ -605,17 +622,17 @@ class _MainPageState extends State<MainPage> {
                               padding: EdgeInsets.only(left: 48.w, right: 48.w),
                               child: Text(
                                 'Lorem ipsum dolor sit amet, '
-                                'consectetur adipiscing elit. '
-                                'Id pulvinar nullam sit imperdiet pulvinar.',
+                                    'consectetur adipiscing elit. '
+                                    'Id pulvinar nullam sit imperdiet pulvinar.',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 14.sp,
                                   color: toogleTheme
                                       ? appThemeData[AppTheme.darkTheme]
-                                          ?.primaryColor
+                                      ?.primaryColor
                                       : appThemeData[AppTheme.lightTheme]
-                                          ?.primaryColor,
+                                      ?.primaryColor,
                                 ),
                               ),
                             ),
@@ -631,9 +648,9 @@ class _MainPageState extends State<MainPage> {
                                 fontWeight: FontWeight.w700,
                                 color: toogleTheme
                                     ? appThemeData[AppTheme.darkTheme]
-                                        ?.primaryColor
+                                    ?.primaryColor
                                     : appThemeData[AppTheme.lightTheme]
-                                        ?.primaryColor,
+                                    ?.primaryColor,
                               ),
                             ),
                             SizedBox(
@@ -643,17 +660,17 @@ class _MainPageState extends State<MainPage> {
                               padding: EdgeInsets.only(left: 48.w, right: 48.w),
                               child: Text(
                                 'Lorem ipsum dolor sit amet, '
-                                'consectetur adipiscing elit. '
-                                'Id pulvinar nullam sit imperdiet pulvinar.',
+                                    'consectetur adipiscing elit. '
+                                    'Id pulvinar nullam sit imperdiet pulvinar.',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 14.sp,
                                   color: toogleTheme
                                       ? appThemeData[AppTheme.darkTheme]
-                                          ?.primaryColor
+                                      ?.primaryColor
                                       : appThemeData[AppTheme.lightTheme]
-                                          ?.primaryColor,
+                                      ?.primaryColor,
                                 ),
                               ),
                             ),

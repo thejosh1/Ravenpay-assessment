@@ -21,16 +21,16 @@ class kMenuItems extends StatelessWidget {
               padding: EdgeInsets.only(left: 16.w, top: 13.h),
               height: 48.h,
               color: state.themeData == appThemeData[AppTheme.lightTheme]
-                  ? AppColors.darkGrey
-                  : Colors.white,
+                  ? Colors.white
+                  : AppColors.darkGrey,
               child: Text(
                 'Exchange',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 12.sp,
                   color: state.themeData == appThemeData[AppTheme.lightTheme]
-                      ? Colors.white
-                      : Colors.black,
+                      ? Colors.black
+                      : Colors.white,
                 ),
               ),
             ),
@@ -39,16 +39,16 @@ class kMenuItems extends StatelessWidget {
               padding: EdgeInsets.only(left: 16.w, top: 13.h),
               height: 48.h,
               color: state.themeData == appThemeData[AppTheme.lightTheme]
-                  ? AppColors.menuBackground
-                  : AppColors.lightBackground,
+                  ? AppColors.lightBackground
+                  : AppColors.menuBackground,
               child: Text(
                 'Wallet',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 12.sp,
                   color: state.themeData == appThemeData[AppTheme.lightTheme]
-                      ? Colors.white
-                      : Colors.black,
+                      ? Colors.black
+                      : Colors.white,
                 ),
               ),
             ),
@@ -57,16 +57,16 @@ class kMenuItems extends StatelessWidget {
               padding: EdgeInsets.only(left: 16.w, top: 13.h),
               height: 48.h,
               color: state.themeData == appThemeData[AppTheme.lightTheme]
-                  ? AppColors.darkGrey
-                  : Colors.white,
+                  ? Colors.white
+                  : AppColors.darkGrey,
               child: Text(
                 'Roqque Hub',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 12.sp,
                   color: state.themeData == appThemeData[AppTheme.lightTheme]
-                      ? Colors.white
-                      : Colors.black,
+                      ? Colors.black
+                      : Colors.white,
                 ),
               ),
             ),
@@ -75,16 +75,16 @@ class kMenuItems extends StatelessWidget {
               padding: EdgeInsets.only(left: 16.w, top: 13.h),
               height: 48.h,
               color: state.themeData == appThemeData[AppTheme.lightTheme]
-                  ? AppColors.darkGrey
-                  : Colors.white,
+                  ? Colors.white
+                  : AppColors.darkGrey,
               child: Text(
                 'Logout',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 12.sp,
                   color: state.themeData == appThemeData[AppTheme.lightTheme]
-                      ? Colors.white
-                      : Colors.black,
+                      ? Colors.black
+                      : Colors.white,
                 ),
               ),
             ),

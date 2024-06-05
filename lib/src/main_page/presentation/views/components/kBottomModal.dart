@@ -14,8 +14,8 @@ void showBottomModal(BuildContext context) {
     backgroundColor: Colors.transparent,
     builder: (BuildContext context) {
       return DraggableScrollableSheet(
-        initialChildSize: 600 / MediaQuery.of(context).size.height,
-        maxChildSize: 600 / MediaQuery.of(context).size.height,
+        initialChildSize: 610 / MediaQuery.of(context).size.height,
+        maxChildSize: 610 / MediaQuery.of(context).size.height,
         builder: (_, controller) {
           return const BottomModalContent();
         },
@@ -66,8 +66,8 @@ class _BottomModalContentState extends State<BottomModalContent>
           padding: EdgeInsets.only(left: 17.w, top: 28.h, right: 17.w),
           decoration: BoxDecoration(
             color: state.themeData == appThemeData[AppTheme.lightTheme]
-                ? AppColors.darkGrey
-                : Colors.white,
+                ? Colors.white
+                : AppColors.darkGrey,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(16.r),
               topRight: Radius.circular(16.r),
@@ -81,8 +81,8 @@ class _BottomModalContentState extends State<BottomModalContent>
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.r),
                   color: state.themeData == appThemeData[AppTheme.lightTheme]
-                      ? Colors.black
-                      : AppColors.lightBackground,
+                      ? AppColors.lightBackground
+                      : Colors.black,
                 ),
                 child: Row(
                   children: [
@@ -102,11 +102,11 @@ class _BottomModalContentState extends State<BottomModalContent>
                           borderRadius: BorderRadius.circular(8.r),
                           color: state.themeData ==
                                   appThemeData[AppTheme.lightTheme]
-                              ? _tabController.index == 0
-                                  ? AppColors.darkGrey2
+                              ? _tabController.index == 1
+                                  ? Colors.white
                                   : Colors.black
                               : _tabController.index == 0
-                                  ? Colors.white
+                                  ? AppColors.darkGrey2
                                   : AppColors.lightBackground,
                         ),
                         child: Center(
@@ -118,8 +118,8 @@ class _BottomModalContentState extends State<BottomModalContent>
                               color: state.themeData ==
                                       appThemeData[AppTheme.lightTheme]
                                   ? _tabController.index == 0
-                                      ? Colors.white
-                                      : AppColors.greyText
+                                      ? AppColors.greyText
+                                      : Colors.white
                                   : _tabController.index == 1
                                       ? Colors.black
                                       : AppColors.deepText,
@@ -139,7 +139,8 @@ class _BottomModalContentState extends State<BottomModalContent>
                           border: Border.all(
                               color: _tabController.index == 1
                                   ? AppColors.green
-                                  : Colors.transparent),
+                                  : Colors.transparent,
+                          ),
                           borderRadius: BorderRadius.circular(8.r),
                           color: state.themeData ==
                                   appThemeData[AppTheme.lightTheme]
@@ -148,7 +149,7 @@ class _BottomModalContentState extends State<BottomModalContent>
                                   : Colors.black
                               : _tabController.index == 0
                                   ? AppColors.darkGrey2
-                                  : AppColors.lightBackground,
+                                  : Colors.black,
                         ),
                         child: Center(
                           child: Text(
